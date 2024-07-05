@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Catalog;
+namespace App\Tests\Catalog\Acceptance;
 
 use App\Catalog\Domain\DrivenPort\AddBook;
 use PHPUnit\Framework\Attributes\Test;
