@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Catalog\Acceptance;
 
 use App\Catalog\Application\AddBook;
+use App\Catalog\Application\AddBookInstance;
 use App\Catalog\Infrastructure\BookRepositoryUsingMemory;
+use App\Catalog\Infrastructure\BookInstanceRepositoryUsingMemory;
 use PHPUnit\Framework\Attributes\Test;
 use App\Catalog\Domain\Book;
-use App\Catalog\Application\EventDispatcherInterface;
+use App\Catalog\Domain\BookInstanceId;
 use App\Catalog\Application\CommandBusInterface;
-use App\Catalog\Domain\BookRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class AddingABookToTheCatalogTest extends KernelTestCase
@@ -29,6 +30,19 @@ final class AddingABookToTheCatalogTest extends KernelTestCase
         $this->assertEquals('Eric Evans', $book->getAuthor());
     }
 
+    #[Test]
+    public function successfully_add_a_book_instance_of_a_known_book_to_the_catalog(): void
+    {
+        $this->bookRepository()->save(new Book(self::DDD_ISBN_STR, 'DDD', 'Eric Evans'));
+
+        $this->commandBus()->dispatch(new AddBookInstance($id = BookInstanceId::generate(), self::DDD_ISBN_STR));
+
+        $bookInstance = $this->bookInstanceRepository()->getSavedBookInstance();
+        $this->assertNotNull($bookInstance);
+        $this->assertEquals($id, $bookInstance->getId());
+        $this->assertEquals(self::DDD_ISBN_STR, $bookInstance->getIsbn());
+    }
+
     private function commandBus(): CommandBusInterface
     {
         /** @var CommandBusInterface */
@@ -39,5 +53,11 @@ final class AddingABookToTheCatalogTest extends KernelTestCase
     {
         /** @var BookRepositoryUsingMemory */
         return self::getContainer()->get(BookRepositoryUsingMemory::class);
+    }
+
+    public function bookInstanceRepository(): BookInstanceRepositoryUsingMemory
+    {
+        /** @var BookInstanceRepositoryUsingMemory */
+        return self::getContainer()->get(BookInstanceRepositoryUsingMemory::class);
     }
 }
