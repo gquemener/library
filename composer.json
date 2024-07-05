@@ -2,19 +2,28 @@
   "name": "gquemener/library",
   "type": "project",
   "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "App\\": "src/"
-    }
-  },
   "authors": [
     {
       "name": "Gildas Quéméner",
       "email": "gildas.quemener@gmail.com"
     }
   ],
+  "scripts": {
+    "tests": "phpunit"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.59",
-    "phpstan/phpstan": "^1.11"
+    "phpstan/phpstan": "^1.11",
+    "phpunit/phpunit": "^11.2"
   }
 }
