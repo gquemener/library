@@ -1,0 +1,4 @@
+services:
+  test_alias.service.command_bus:
+    alias: 'App\Catalog\Infrastructure\CommandBusUsingSymfonyMessenger'
+    public: true
