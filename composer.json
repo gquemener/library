@@ -1,0 +1,17 @@
+{
+  "name": "gquemener/library",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Gildas Quéméner",
+      "email": "gildas.quemener@gmail.com"
+    }
+  ],
+  "require": {}
+}
